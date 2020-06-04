@@ -1,0 +1,5 @@
+/target
+cargo.lock
+/src/bin
+/python/__pycache__
+*.so
