@@ -25,7 +25,7 @@ class Model:
         """
         Return a list of floats
         """
-        return self.results
+        return self.inputs
 
     def get_residuals(self):
         """

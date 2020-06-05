@@ -1,6 +1,6 @@
 use nalgebra;
-use pyo3::prelude::*;
 use newton_rootfinder::solver_advanced as nrf;
+use pyo3::prelude::*;
 
 // Required
 // fn evaluate(&mut self)
@@ -37,9 +37,7 @@ impl Model for UserModel {
         let gil = Python::acquire_gil();
         let py = gil.python();
 
-        let py_result = self.model
-            .as_ref(py)
-            .call_method("len_problem", (), None);
+        let py_result = self.model.as_ref(py).call_method("len_problem", (), None);
 
         let py_value = match py_result {
             Ok(value) => value,
@@ -70,11 +68,14 @@ impl Model for UserModel {
     fn get_iteratives(&self) -> nalgebra::DVector<f64> {
         let gil = Python::acquire_gil();
         let py = gil.python();
-        let py_result: &PyAny = self
+        let py_result: &PyAny = match self
             .model
             .as_ref(py)
             .call_method("get_iteratives", (), None)
-            .unwrap();
+        {
+            Ok(results) => results,
+            Err(error) => panic!("Error calling the get_iteratives() method:\n{:#?}", error),
+        };
 
         if py_result.get_type().name() != "list" {
             panic!(
@@ -95,9 +96,9 @@ impl Model for UserModel {
             .call_method("get_residuals", (), None)
             .unwrap();
 
-        // TODO : remove this println! and
-        // check that the return type is a tuple of length 2
-        println!("{}", py_result.get_type().name());
+        if (py_result.get_type().name() != "tuple") | (py_result.len().unwrap() != 2) {
+            panic!("Expected a tuple of length two for the get_residuals() method signature, got ({}, {})", py_result.get_type().name(), py_result.len().unwrap());
+        }
 
         let py_left: &PyAny = py_result.get_item(0).unwrap();
         let py_right: &PyAny = py_result.get_item(1).unwrap();

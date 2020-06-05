@@ -16,12 +16,14 @@ if __name__=="__main__":
     import py_nrf
     from model import Model
 
+    path = r'./data/config.xml'
+
     myModel = Model()
+    myModel.set_iteratives([1,1])
 
     my_rust_model = py_nrf.UserModel(myModel)
-    my_rust_model.set_iteratives_rust([2.0, 3.0])
-    print(myModel.inputs)
-    my_rust_model.evaluate_rust()
-    print(my_rust_model.len_problem_rust())
-    print(myModel.left)
-    print(myModel.right)
+    py_nrf.solve_finite_diff(path, my_rust_model)
+
+    print('Inputs: {}'.format(myModel.inputs))
+    print('Left: {}'.format(myModel.left))
+    print('Right: {}'.format(myModel.right))
