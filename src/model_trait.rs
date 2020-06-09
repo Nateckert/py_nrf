@@ -123,15 +123,14 @@ impl UserModel {
     pub fn new(model: Py<PyAny>) -> Self {
         UserModel { model }
     }
-    pub fn evaluate_rust(&mut self) -> PyResult<()> {
-        self.evaluate();
-        Ok(())
+    pub fn evaluate(&mut self) -> PyResult<()> {
+         Ok(Model::evaluate(self))
     }
-    pub fn len_problem_rust(&self) -> PyResult<usize> {
-        Ok(self.len_problem())
+    pub fn len_problem(&self) -> PyResult<usize> {
+        Ok(Model::self.len_problem(self))
     }
-    pub fn set_iteratives_rust(&mut self, inputs: Vec<f64>) -> PyResult<()> {
-        self.set_iteratives(&nalgebra::DVector::from_vec(inputs));
+    pub fn set_iteratives(&mut self, inputs: Vec<f64>) -> PyResult<()> {
+        Model::set_iteratives(self, &nalgebra::DVector::from_vec(inputs));
         Ok(())
     }
 }
