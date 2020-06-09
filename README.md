@@ -10,7 +10,7 @@ In order to generate a wheel valid for you computer, you need to:
 2. Install a Python version and install [maturin](https://pypi.org/project/maturin/): `pip install maturin`
 3. Switch to Rust [nightly](https://doc.rust-lang.org/book/appendix-07-nightly-rust.html#rustup-and-the-role-of-rust-nightly) (this is due to the PyO3 dependency): `rustup default nightly`
 4. Build the crate with `cargo build --release` (if it is the first build, an internet connexion is required to download dependencies from http://crates.io). If you are using macOS, check the nota bene.
-5. Create the Python wheel by running `maturin build`. This build the wheel in the `target/wheels` directory. Alternatively, you can use `maturin develop` which also install it in you current Python environment.
+5. Create the Python wheel by running `maturin build`. This build the wheel in the `target/wheels` directory. Alternatively, you can use `maturin develop` which also install it in your current Python environment.
 
 N-B: If you are using macOS, you need to run the following command line: `cargo rustc --release -- -C link-arg=-undefined -C link-arg=dynamic_lookup`. You can also edit your `.cargo/config` file and add the following content:
 

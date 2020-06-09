@@ -19,6 +19,7 @@ fn py_nrf(_py: Python, m: &PyModule) -> PyResult<()> {
 }
 
 #[pyfunction]
+#[name = "solve_finite_diff"]
 pub fn solve_finite_diff(path_config: &str, model: &mut UserModel) {
     let (solver_parameters, iteratives_fd, stopping_criterias, update_methods) =
         nrf::util::from_xml_finite_diff(path_config);
